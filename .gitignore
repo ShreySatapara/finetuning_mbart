@@ -1,2 +1,7 @@
 inference.py
 /bleurt
+__pycatch__/
+clear.log
+debug.py
+inference_and_calculate_score.sh
+predict_on_samples.py

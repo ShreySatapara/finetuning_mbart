@@ -4,7 +4,7 @@ save_dir=$1
 mkdir -p $save_dir
 cp train_model.sh $save_dir/train_model.sh
 
-CUDA_VISIBLE_DEVICES=4,5,6,7 torchrun --nproc_per_node=4 train_model.py \
+CUDA_VISIBLE_DEVICES=0,1,3,8,9,10 accelerate launch --num_processes 6 --mixed_precision fp16 --num_machines 1 --dynamo_backend no train_model.py \
     --data_dir ../original_data/data \
     --train_split train_1M --val_split dev  -s SRC -t TGT \
     --pretrained_encoder_name "facebook/mbart-large-50-many-to-one-mmt" \

@@ -6,7 +6,6 @@ from load_dataset import MyDataset
 
 import argparse
 
-
 def main():
     parser = argparse.ArgumentParser(description='training job')
     parser.add_argument('--data_dir',  type=str, help='Total epochs to train the model')
@@ -54,10 +53,14 @@ def main():
         tokenizer = tokenizer, 
         max_length = args.max_len
     )
-
-    config = MBartConfig.from_pretrained(args.pretrained_encoder_name,encoder_layers=6, decoder_layers=6)
-    model = MBartForConditionalGeneration(config)
     
+    #config = MBartConfig.from_pretrained(args.pretrained_encoder_name,encoder_layers=6, decoder_layers=6)
+    model = MBartForConditionalGeneration.from_pretrained("../mbart50_pretrained_loaded_6_en_6_de")
+    for param in model.model.shared.parameters():
+        param.requires_grad = False
+    for param in model.model.encoder.parameters():
+        param.requires_grad = False
+
     training_args = Seq2SeqTrainingArguments(
     output_dir=args.save_dir,                            # Directory where the model checkpoints and logs will be saved.
     num_train_epochs=args.total_epochs,                  # Total number of training epochs.

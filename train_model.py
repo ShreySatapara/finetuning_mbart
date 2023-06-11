@@ -1,11 +1,11 @@
 import torch
+import transformers
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast, MBartConfig
 
 from load_dataset import MyDataset
 
 import argparse
-
 
 def main():
     parser = argparse.ArgumentParser(description='training job')
@@ -54,9 +54,9 @@ def main():
         tokenizer = tokenizer, 
         max_length = args.max_len
     )
-
-    config = MBartConfig.from_pretrained(args.pretrained_encoder_name,encoder_layers=6, decoder_layers=6)
-    model = MBartForConditionalGeneration(config)
+    
+    #config = MBartConfig.from_pretrained(args.pretrained_encoder_name,encoder_layers=6, decoder_layers=6)
+    model = MBartForConditionalGeneration.from_pretrained("../mbart50_pretrained_loaded_6_en_6_de")
     
     training_args = Seq2SeqTrainingArguments(
     output_dir=args.save_dir,                            # Directory where the model checkpoints and logs will be saved.

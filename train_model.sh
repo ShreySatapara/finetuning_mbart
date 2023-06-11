@@ -16,7 +16,7 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 torchrun --nproc_per_node=4 train_model.py \
     --grad_accum_steps 8 \
     --total_save_limit 5 \
     --logging_dir ./logs \
-    --logging_steps 100 \
+    --logging_steps 1000 \
     --num_workers 16 \
     --clip_norm 1.0 \
     --batch_size 20 2>&1 | tee $save_dir.log

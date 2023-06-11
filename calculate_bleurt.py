@@ -5,7 +5,7 @@ from glob import glob
 import json
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+
 
 parser = argparse.ArgumentParser(description='Description of your program.')
 parser.add_argument('-f', '--folder', type=str, required=True, help='Input folder path path')

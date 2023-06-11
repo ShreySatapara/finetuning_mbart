@@ -26,21 +26,29 @@ reference_list=("../original_data/data/test.TGT" "../original_data/similar_lang/
 "../original_data/similar_lang/devtest/eng_Latn.devtest")
 
 translated_folder=$1
-
+device_id=$2
 
 for i in 0 1 2 3 4 5 6 7
 do 
 folder_name=$(dirname ${translated_list[$i]})
 mkdir -p $translated_folder/$folder_name
 echo "========================================================"
-#echo "translating ${source_list[$i]}"
-#python inference.py ${source_list[$i]} $translated_folder/${translated_list[$i]} 32
+echo "translating ${source_list[$i]}"
+python inference.py --input_file ${source_list[$i]} \
+    --output_file $translated_folder/${translated_list[$i]} \
+    --checkpoint_path ../exp_2_1M/checkpoint-15620\
+    --batch_size 32 \
+    --device_id $device_id \
+    --mbart_model_name "facebook/mbart-large-50-many-to-one-mmt"
 
 echo "calculating BLEU"
 sacrebleu ${reference_list[$i]} < $translated_folder/${translated_list[$i]} >> $translated_folder/${translated_list[$i]}.score -m bleu chrf
 done
 
-CUDA_VISIBLE_DEVICE=3
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate tf2
+
+CUDA_VISIBLE_DEVICE=$device_id
 
 for i in 0 1 2 3 4 5 6 7
 do 
